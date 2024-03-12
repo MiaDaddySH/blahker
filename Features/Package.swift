@@ -13,14 +13,20 @@ let package = Package(
       targets: ["Features"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.9.2")
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.9.2"),
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
     // Targets can depend on other targets in this package and products from dependencies.
     .target(
-      name: "Features"),
+      name: "Features",
+      dependencies: [.tca]
+    ),
     .testTarget(
       name: "FeaturesTests",
-      dependencies: ["Features"]),
+      dependencies: ["Features", .tca]),
   ])
+
+extension Target.Dependency {
+  static let tca = Self.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+}
